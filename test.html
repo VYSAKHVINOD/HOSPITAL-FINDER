@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAMP Test - Hospital Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f0f0;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        .info { color: blue; }
+    </style>
+</head>
+<body>
+    <h1>🔧 WAMP Server Debug Test</h1>
+    
+    <div class="test-section">
+        <h2>1. File Access Test</h2>
+        <p>If you can see this page, WAMP is working!</p>
+        <p class="success">✅ HTML files are accessible</p>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. CSS Test</h2>
+        <p>If this text is styled (white background, padding, etc.), CSS is loading.</p>
+        <p class="info">Check if style.css loads: <a href="style.css" target="_blank">Open style.css</a></p>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. JavaScript Test</h2>
+        <button onclick="testJS()">Test JavaScript</button>
+        <p id="js-result"></p>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. Image Test</h2>
+        <p>Testing image loading:</p>
+        <img src="hfimg1.jpg" alt="Test Image" style="max-width: 200px; border: 2px solid #ccc;">
+        <p class="info">If you see an image above, images are loading correctly.</p>
+    </div>
+    
+    <div class="test-section">
+        <h2>5. Language Test</h2>
+        <button onclick="testLanguage()">Test Language Function</button>
+        <p id="lang-result"></p>
+    </div>
+    
+    <div class="test-section">
+        <h2>6. Quick Fixes to Try:</h2>
+        <ol>
+            <li><strong>Hard Refresh:</strong> Press Ctrl + F5</li>
+            <li><strong>Clear Cache:</strong> Ctrl + Shift + Delete</li>
+            <li><strong>Check URL:</strong> Make sure you're using http://localhost/HOSPITAL%20FINDER/</li>
+            <li><strong>Check Console:</strong> Press F12 → Console tab for errors</li>
+            <li><strong>Try Incognito:</strong> Open in private/incognito mode</li>
+        </ol>
+    </div>
+
+    <script>
+        function testJS() {
+            document.getElementById('js-result').innerHTML = '<span class="success">✅ JavaScript is working!</span>';
+        }
+        
+        function testLanguage() {
+            // Test if language functions exist
+            if (typeof changeLanguage === 'function') {
+                document.getElementById('lang-result').innerHTML = '<span class="success">✅ Language functions are loaded!</span>';
+            } else {
+                document.getElementById('lang-result').innerHTML = '<span class="error">❌ Language functions not found</span>';
+            }
+        }
+        
+        // Auto-run some tests
+        window.onload = function() {
+            console.log('🔧 Debug test page loaded');
+            console.log('Current URL:', window.location.href);
+            console.log('User Agent:', navigator.userAgent);
+        };
+    </script>
+</body>
+</html>
+

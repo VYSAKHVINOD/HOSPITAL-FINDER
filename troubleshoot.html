@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Finder - Troubleshooting</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 30px;
+        }
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .step {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-left: 4px solid #3498db;
+            background-color: #f8f9fa;
+        }
+        .code {
+            font-family: monospace;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        .success {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .test-button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+            display: inline-block;
+        }
+        .test-button:hover {
+            background-color: #2980b9;
+        }
+        .result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+        }
+        .hidden {
+            display: none;
+        }
+        .checklist {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .checklist li {
+            margin-bottom: 10px;
+            padding-left: 30px;
+            position: relative;
+        }
+        .checklist li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hospital Finder - Troubleshooting Guide</h1>
+    
+    <div class="section">
+        <h2>Common Issues and Solutions</h2>
+        
+        <div class="step">
+            <h3>1. Check if PHP is Working</h3>
+            <p>Create a file called <span class="code">test.php</span> in your project folder with this content:</p>
+            <div class="code">&lt;?php echo "PHP is working!"; ?&gt;</div>
+            <p>Access it in your browser: <span class="code">http://localhost/your-project-folder/test.php</span></p>
+            <button class="test-button" onclick="testPHP()">Test PHP</button>
+            <div id="php-result" class="result hidden"></div>
+        </div>
+        
+        <div class="step">
+            <h3>2. Check Database Connection</h3>
+            <p>Test your database connection with this code:</p>
+            <div class="code">
+// db_test.php<br>
+&lt;?php<br>
+$host = 'localhost';<br>
+$dbname = 'kerala_hospitals';<br>
+$username = 'root';<br>
+$password = '';<br>
+<br>
+try {<br>
+&nbsp;&nbsp;$pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);<br>
+&nbsp;&nbsp;echo "Database connection successful!";<br>
+} catch (PDOException $e) {<br>
+&nbsp;&nbsp;echo "Connection failed: " . $e->getMessage();<br>
+}<br>
+?&gt;
+            </div>
+            <button class="test-button" onclick="testDB()">Test Database Connection</button>
+            <div id="db-result" class="result hidden"></div>
+        </div>
+        
+        <div class="step">
+            <h3>3. Check API Endpoints</h3>
+            <p>Test if your API endpoints are working:</p>
+            <div class="code">
+// Test hospitals API<br>
+http://localhost/your-project-folder/api/get_hospitals.php?district=Thiruvananthapuram
+            </div>
+            <button class="test-button" onclick="testAPI('hospitals')">Test Hospitals API</button>
+            <div id="api-hospitals-result" class="result hidden"></div>
+            
+            <div class="code">
+// Test hospital details API<br>
+http://localhost/your-project-folder/api/get_hospital_details.php?id=1
+            </div>
+            <button class="test-button" onclick="testAPI('details')">Test Details API</button>
+            <div id="api-details-result" class="result hidden"></div>
+        </div>
+        
+        <div class="step">
+            <h3>4. Check JavaScript Console for Errors</h3>
+            <p>Open your browser's developer tools (F12) and check the Console tab for any errors.</p>
+            <button class="test-button" onclick="testConsole()">Check for Console Errors</button>
+            <div id="console-result" class="result hidden"></div>
+        </div>
+        
+        <div class="step">
+            <h3>5. Verify File Structure</h3>
+            <p>Ensure your project has the correct file structure:</p>
+            <ul class="checklist">
+                <li>Project folder contains index.html, script.js, style.css, db_connection.php</li>
+                <li>API folder exists with get_hospitals.php and get_hospital_details.php</li>
+                <li>All file names are spelled correctly</li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <h3>6. Check Database Content</h3>
+            <p>Make sure your database has data:</p>
+            <div class="code">
+// Check if hospitals table has data<br>
+SELECT COUNT(*) AS count FROM hospitals;
+            </div>
+            <button class="test-button" onclick="testDBContent()">Check Database Content</button>
+            <div id="db-content-result" class="result hidden"></div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>Debugging Steps</h2>
+        
+        <div class="step">
+            <h3>Enable Detailed Error Reporting</h3>
+            <p>Add this to the top of your PHP files to see detailed errors:</p>
+            <div class="code">
+&lt;?php<br>
+error_reporting(E_ALL);<br>
+ini_set('display_errors', 1);<br>
+// Rest of your code...<br>
+?&gt;
+            </div>
+        </div>
+        
+        <div class="step">
+            <h3>Check File Permissions</h3>
+            <p>Ensure your PHP files have the correct permissions (usually 644).</p>
+        </div>
+        
+        <div class="step">
+            <h3>Verify Database Credentials</h3>
+            <p>Double-check your db_connection.php file has the correct database credentials.</p>
+        </div>
+    </div>
+
+    <script>
+    function testPHP() {
+        const resultDiv = document.getElementById('php-result');
+        resultDiv.classList.remove('hidden');
+        resultDiv.innerHTML = 'Create a file called test.php with the content above and access it in your browser.';
+    }
+    
+    function testDB() {
+        const resultDiv = document.getElementById('db-result');
+        resultDiv.classList.remove('hidden');
+        resultDiv.innerHTML = 'Create a file called db_test.php with the content above and access it in your browser.';
+    }
+    
+    function testAPI(type) {
+        const resultDiv = document.getElementById(`api-${type}-result`);
+        resultDiv.classList.remove('hidden');
+        
+        if (type === 'hospitals') {
+            fetch('api/get_hospitals.php?district=Thiruvananthapuram')
+                .then(response => response.json())
+                .then(data => {
+                    resultDiv.innerHTML = `<span class="success">API Response:</span><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                })
+                .catch(error => {
+                    resultDiv.innerHTML = `<span class="error">API Error:</span> ${error}`;
+                });
+        } else {
+            fetch('api/get_hospital_details.php?id=1')
+                .then(response => response.json())
+                .then(data => {
+                    resultDiv.innerHTML = `<span class="success">API Response:</span><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                })
+                .catch(error => {
+                    resultDiv.innerHTML = `<span class="error">API Error:</span> ${error}`;
+                });
+        }
+    }
+    
+    function testConsole() {
+        const resultDiv = document.getElementById('console-result');
+        resultDiv.classList.remove('hidden');
+        
+        // Check if console has errors
+        try {
+            // This is a simple check - actual console error checking would need a browser extension
+            resultDiv.innerHTML = 'Open your browser developer tools (F12) and check the Console tab for any red error messages.';
+        } catch (error) {
+            resultDiv.innerHTML = `<span class="error">Error checking console:</span> ${error}`;
+        }
+    }
+    
+    function testDBContent() {
+        const resultDiv = document.getElementById('db-content-result');
+        resultDiv.classList.remove('hidden');
+        resultDiv.innerHTML = 'Run the SQL query above in phpMyAdmin or your database management tool to verify you have data in your hospitals table.';
+    }
+    </script>
+</body>
+</html>

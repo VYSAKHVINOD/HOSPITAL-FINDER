@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Finder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="custom-cursor"></div>
+    <header>
+        <div class="logo" data-translate="hospital_finder">Hospital Finder</div>
+        <nav>
+            <ul>
+                <li><a href="#" id="home-link" data-translate="home">Home</a></li>
+                <li><a href="#" id="about-link" data-translate="about">About</a></li>
+                <li><a href="#" id="contact-link" data-translate="contact">Contact</a></li>
+                <li><a href="#" id="helpline-link" onclick="showHelplineModal(); return false;" data-translate="helpline">Helpline</a></li>
+                <li><a href="#" id="facts-link" onclick="showFactsModal(); return false;" data-translate="healthcare_facts">Healthcase Facts</a></li>
+                <li><a href="#" id="feedback-link" onclick="showFeedbackModal(); return false;" data-translate="feedback">Feedback</a></li>
+                
+                <li><a href="#" id="settings-link" onclick="showSettingsModal(); return false;" data-translate="settings">Settings</a></li>
+                <li><a href="admin/admin_dashboard.php" id="admin-link" data-translate="admin">Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="main" id="main-content">
+        <div class="left-section">
+            <h1 data-translate="find_hospital">FIND A HOSPITAL</h1>
+            <p data-translate="search_description">Easily search for a hospital near your district</p>
+            <div class="district-selector">
+                <select id="district-select">
+                    <option value="" disabled selected data-translate="select_district">Select a district</option>
+                    <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                    <option value="Kollam">Kollam</option>
+                    <option value="Pathanamthitta">Pathanamthitta</option>
+                    <option value="Alappuzha">Alappuzha</option>
+                    <option value="Kottayam">Kottayam</option>
+                    <option value="Idukki">Idukki</option>
+                    <option value="Ernakulam">Ernakulam</option>
+                    <option value="Thrissur">Thrissur</option>
+                    <option value="Palakkad">Palakkad</option>
+                    <option value="Malappuram">Malappuram</option>
+                    <option value="Kozhikode">Kozhikode</option>
+                    <option value="Wayanad">Wayanad</option>
+                    <option value="Kannur">Kannur</option>
+                    <option value="Kasaragod">Kasaragod</option>
+                </select>
+            </div>
+            <div class="district-selector specialized-selector">
+                <select id="specialized-select">
+                    <option value="ALL" selected data-translate="all_specialties">ALL</option>
+                    <option value="Super Speciality Hospital" data-translate="super_speciality">Super Speciality Hospital</option>
+                    <option value="Eye Specialized Hospital" data-translate="eye_specialized">Eye Specialized Hospital</option>
+                    <option value="ENT Specialized Hospital" data-translate="ent_specialized">ENT Specialized Hospital</option>
+                    <option value="Orthopedic Specialized Hospital" data-translate="orthopedic_specialized">Orthopedic Specialized Hospital</option>
+                    <option value="Skin Specialized Hospital" data-translate="skin_specialized">Skin Specialized Hospital</option>
+                    <option value="Dental Specialized Hospital" data-translate="dental_specialized">Dental Specialized Hospital</option>
+                </select>
+            </div>
+            <button class="search-button" id="search-button" data-translate="search_hospitals">Search Hospitals</button>
+        </div>
+        <div class="right-section">
+            <div class="image-slider">
+                <img src="hfimg1.jpg" alt="Hospital 1" class="active">
+                <img src="hfimg2.jpg" alt="Hospital 2">
+                <img src="hfimg3.jpg" alt="Hospital 3">
+                <img src="hfimg4.jpg" alt="Hospital 4">
+            </div>
+        </div>
+    </div>
+
+    <div id="results-page" class="results-page">
+        <h1>Search Results</h1>
+        <div id="results-container">
+            <!-- Results will be inserted here by JavaScript -->
+        </div>
+        <a href="#" class="back-to-home" id="back-to-home-results">← Back to Home</a>
+    </div>
+
+    <div id="details-page" class="details-page">
+        <h1 id="details-title">Hospital Details</h1>
+        <div id="details-content">
+            <!-- Details will be inserted here by JavaScript -->
+        </div>
+        <a href="#" class="back-to-home" id="back-to-details">← Back to Results</a>
+    </div>
+
+    <div id="about-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 data-translate="about_title">About Hospital Finder</h2>
+            <p data-translate="about_description">Hospital Finder is a platform dedicated to helping you locate the nearest healthcare facilities in your area. Our mission is to connect patients with the right medical care when they need it most.</p>
+            <p>This message will automatically close in 10 seconds.</p>
+        </div>
+    </div>
+
+    <div id="contact-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 data-translate="contact_title">Contact Us</h2>
+            <p data-translate="contact_description">For any inquiries or support, please reach out to us at:</p>
+            <p>Email: info@hospitalfinder.com<br>Phone: (123) 456-7890</p>
+            <p>This message will automatically close in 10 seconds.</p>
+        </div>
+    </div>
+
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="settings-title">Settings</h2>
+            <div class="settings-divider"></div>
+
+            <div class="settings-item">
+                <div class="settings-left">
+                    <span class="settings-icon">🌙</span>
+                    <span class="settings-label">Dark Mode</span>
+                </div>
+                <button type="button" id="toggle-dark" class="switch" role="switch" aria-checked="false" aria-label="Toggle dark mode" onclick="toggleDarkModeSwitch()">
+                    <span class="switch-track"></span>
+                    <span class="switch-thumb"></span>
+                </button>
+            </div>
+
+            <div class="settings-item">
+                <div class="settings-left">
+                    <span class="settings-icon">🟡</span>
+                    <span class="settings-label">Eye Protection</span>
+                </div>
+                <button type="button" id="toggle-eye" class="switch" role="switch" aria-checked="false" aria-label="Toggle eye protection" onclick="toggleEyeProtectionSwitch()">
+                    <span class="switch-track"></span>
+                    <span class="switch-thumb"></span>
+                </button>
+            </div>
+
+            <div class="settings-item">
+                <div class="settings-left">
+                    <span class="settings-icon">🔈</span>
+                    <span class="settings-label">Sound Effect</span>
+                </div>
+                <button type="button" id="toggle-sound" class="switch" role="switch" aria-checked="false" aria-label="Toggle sound effects" onclick="toggleSoundEffectsSwitch()">
+                    <span class="switch-track"></span>
+                    <span class="switch-thumb"></span>
+                </button>
+            </div>
+
+            <div class="settings-item">
+                <div class="settings-left">
+                    <span class="settings-icon">🌐</span>
+                    <span class="settings-label">Language</span>
+                </div>
+                <button type="button" class="submit-button" style="width:auto; padding: 8px 14px;" onclick="(function(){ var sm=document.getElementById('settings-modal'); if(sm) sm.style.display='none'; if(typeof showLanguageModal==='function'){ showLanguageModal(); } })(); return false;">Open</button>
+            </div>
+
+            <div class="settings-item" style="justify-content: flex-end; margin-top: 16px;">
+                <button type="button" id="reset-settings" class="submit-button" onclick="resetAllSettings()">Reset</button>
+            </div>
+
+            <p class="settings-hint">These preferences do not auto-close. Close this dialog when done.</p>
+        </div>
+    </div>
+
+    <div id="facts-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2><strong>Healthcase Facts</strong></h2>
+            <p id="facts-text">Loading...</p>
+            <p>This message will automatically close in 10 seconds.</p>
+        </div>
+    </div>
+
+    <div id="helpline-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2><strong>Helpline Numbers</strong></h2>
+            <div class="helpline-list">
+                <p><strong>National Emergency Number:</strong> 112</p>
+                <p><strong>Police:</strong> 100</p>
+                <p><strong>Fire:</strong> 101</p>
+                <p><strong>Ambulance:</strong> 102</p>
+                <p><strong>Women's Helpline:</strong> 1091</p>
+                <p><strong>Women's Helpline (Domestic Abuse):</strong> 181</p>
+                <p><strong>COVID-19 Helpline:</strong> 011-23978046 or 1075</p>
+                <p><strong>National AIDS Helpline:</strong> 1097</p>
+                <p><strong>Elder Helpline:</strong> 14567</p>
+                <p><strong>Legal Aid Helpline:</strong> 15100</p>
+                <p><strong>Childline India Foundation:</strong> 1098</p>
+                <p><strong>Cyber Crime Helpline:</strong> 1930</p>
+                <p><strong>Missing Child and Women Helpline:</strong> 1094</p>
+            </div>
+            <p>This message will automatically close in 10 seconds.</p>
+        </div>
+    </div>
+
+    <div id="feedback-modal" class="modal">
+        <div class="modal-content feedback-modal-content">
+            <span class="close-modal">&times;</span>
+            <h2><strong>Feedback</strong></h2>
+            <form id="feedback-form" class="feedback-form">
+                <div class="form-group">
+                    <label for="feedback-name">Name:</label>
+                    <input type="text" id="feedback-name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="feedback-email">Email:</label>
+                    <input type="email" id="feedback-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="feedback-message">Feedback:</label>
+                    <textarea id="feedback-message" name="feedback" rows="8" required></textarea>
+                </div>
+                <button type="submit" class="submit-button">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="language-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2><strong>Select Language</strong></h2>
+            <div class="language-options-modal">
+                <div class="language-option" data-lang="en">
+                    <div class="language-flag">🇺🇸</div>
+                    <div class="language-name">English</div>
+                </div>
+                <div class="language-option" data-lang="hi">
+                    <div class="language-flag">🇮🇳</div>
+                    <div class="language-name">हिंदी</div>
+                </div>
+                <div class="language-option" data-lang="ml">
+                    <div class="language-flag">🇮🇳</div>
+                    <div class="language-name">മലയാളം</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <p>Providing a trusted source for hospital information.</p>
+        <p>© 2024 Hospital Finder</p>
+    </footer>
+
+    
+
+    <script src="script.js?v=4"></script>
+    <script>
+    // Translation object
+    const translations = {
+        en: {
+            hospital_finder: "Hospital Finder",
+            home: "Home",
+            about: "About",
+            contact: "Contact",
+            helpline: "Helpline",
+            healthcare_facts: "Healthcare Facts",
+            feedback: "Feedback",
+            language: "Language",
+            settings: "Settings",
+            admin: "Admin",
+            find_hospital: "FIND A HOSPITAL",
+            search_description: "Easily search for a hospital near your district",
+            select_district: "Select a district",
+            search_hospitals: "Search Hospitals",
+            all_specialties: "ALL",
+            super_speciality: "Super Speciality Hospital",
+            eye_specialized: "Eye Specialized Hospital",
+            ent_specialized: "ENT Specialized Hospital",
+            orthopedic_specialized: "Orthopedic Specialized Hospital",
+            skin_specialized: "Skin Specialized Hospital",
+            dental_specialized: "Dental Specialized Hospital",
+            about_title: "About Hospital Finder",
+            about_description: "Hospital Finder is a platform dedicated to helping you locate the nearest healthcare facilities in your area. Our mission is to connect patients with the right medical care when they need it most.",
+            contact_title: "Contact Us",
+            contact_description: "For any inquiries or support, please reach out to us at:"
+        },
+        hi: {
+            hospital_finder: "अस्पताल खोजकर्ता",
+            home: "होम",
+            about: "के बारे में",
+            contact: "संपर्क",
+            helpline: "हेल्पलाइन",
+            healthcare_facts: "स्वास्थ्य तथ्य",
+            feedback: "फीडबैक",
+            language: "भाषा",
+            settings: "सेटिंग्स",
+            admin: "एडमिन",
+            find_hospital: "अस्पताल खोजें",
+            search_description: "अपने जिले के पास आसानी से अस्पताल खोजें",
+            select_district: "एक जिला चुनें",
+            search_hospitals: "अस्पताल खोजें",
+            all_specialties: "सभी",
+            super_speciality: "सुपर स्पेशियलिटी अस्पताल",
+            eye_specialized: "नेत्र विशेषज्ञ अस्पताल",
+            ent_specialized: "ईएनटी विशेषज्ञ अस्पताल",
+            orthopedic_specialized: "ऑर्थोपेडिक विशेषज्ञ अस्पताल",
+            skin_specialized: "त्वचा विशेषज्ञ अस्पताल",
+            dental_specialized: "दंत विशेषज्ञ अस्पताल",
+            about_title: "अस्पताल खोजकर्ता के बारे में",
+            about_description: "अस्पताल खोजकर्ता एक ऐसा मंच है जो आपके क्षेत्र में निकटतम स्वास्थ्य सुविधाओं को खोजने में आपकी मदद के लिए समर्पित है। हमारा मिशन रोगियों को सही चिकित्सा देखभाल से जोड़ना है जब उन्हें इसकी सबसे अधिक आवश्यकता हो।",
+            contact_title: "हमसे संपर्क करें",
+            contact_description: "किसी भी पूछताछ या सहायता के लिए, कृपया हमसे संपर्क करें:"
+        },
+        ml: {
+            hospital_finder: "ആശുപത്രി കണ്ടെത്തൽ",
+            home: "ഹോം",
+            about: "കുറിച്ച്",
+            contact: "കോൺടാക്റ്റ്",
+            helpline: "ഹെൽപ്ലൈൻ",
+            healthcare_facts: "ആരോഗ്യ വസ്തുതകൾ",
+            feedback: "ഫീഡ്ബാക്ക്",
+            language: "ഭാഷ",
+            settings: "ക്രമീകരണങ്ങൾ",
+            admin: "അഡ്മിൻ",
+            find_hospital: "ആശുപത്രി കണ്ടെത്തുക",
+            search_description: "നിങ്ങളുടെ ജില്ലയ്ക്ക് സമീപം ആശുപത്രി എളുപ്പത്തിൽ തിരയുക",
+            select_district: "ഒരു ജില്ല തിരഞ്ഞെടുക്കുക",
+            search_hospitals: "ആശുപത്രികൾ തിരയുക",
+            all_specialties: "എല്ലാം",
+            super_speciality: "സൂപ്പർ സ്പെഷ്യാലിറ്റി ആശുപത്രി",
+            eye_specialized: "കണ്ണ് സ്പെഷ്യാലിറ്റി ആശുപത്രി",
+            ent_specialized: "ഇഎൻടി സ്പെഷ്യാലിറ്റി ആശുപത്രി",
+            orthopedic_specialized: "ഓർത്തോപീഡിക് സ്പെഷ്യാലിറ്റി ആശുപത്രി",
+            skin_specialized: "തൊലി സ്പെഷ്യാലിറ്റി ആശുപത്രി",
+            dental_specialized: "ദന്ത സ്പെഷ്യാലിറ്റി ആശുപത്രി",
+            about_title: "ആശുപത്രി കണ്ടെത്തൽ കുറിച്ച്",
+            about_description: "ആശുപത്രി കണ്ടെത്തൽ എന്നത് നിങ്ങളുടെ പ്രദേശത്തെ ഏറ്റവും അടുത്ത ആരോഗ്യ സൗകര്യങ്ങൾ കണ്ടെത്താൻ സഹായിക്കുന്നതിനായി സമർപ്പിച്ചിരിക്കുന്ന ഒരു പ്ലാറ്റ്ഫോമാണ്. രോഗികൾക്ക് ആവശ്യമുള്ളപ്പോൾ ശരിയായ മെഡിക്കൽ കെയർ ലഭിക്കാൻ ഞങ്ങളുടെ ദൗത്യം രോഗികളെ ശരിയായ മെഡിക്കൽ കെയറുമായി ബന്ധിപ്പിക്കുകയാണ്.",
+            contact_title: "ഞങ്ങളെ സമീപിക്കുക",
+            contact_description: "ഏതെങ്കിലും അന്വേഷണങ്ങൾക്കോ പിന്തുണയ്ക്കോ, ദയവായി ഞങ്ങളെ സമീപിക്കുക:"
+        }
+    };
+
+    // Current language
+    let currentLanguage = 'en';
+
+    // Function to change language
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        const elements = document.querySelectorAll('[data-translate]');
+        
+        elements.forEach(element => {
+            const key = element.getAttribute('data-translate');
+            if (translations[lang] && translations[lang][key]) {
+                element.textContent = translations[lang][key];
+            }
+        });
+        
+        // Update language button text
+        const languageLink = document.getElementById('language-link');
+        if (languageLink) {
+            languageLink.textContent = translations[lang].language;
+        }
+        
+        // Store language preference
+        localStorage.setItem('selectedLanguage', lang);
+    }
+
+    // Global function for language modal
+    function showLanguageModal() {
+        console.log('showLanguageModal called');
+        const languageModal = document.getElementById('language-modal');
+        if (languageModal) {
+            console.log('Language modal found, showing...');
+            languageModal.style.display = 'flex';
+        } else {
+            console.error('Language modal not found');
+        }
+    }
+
+    // Initialize language on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check for saved language preference
+        const savedLanguage = localStorage.getItem('selectedLanguage');
+        if (savedLanguage && translations[savedLanguage]) {
+            changeLanguage(savedLanguage);
+        }
+        
+        // Add click handlers for language options in modal
+        const languageOptions = document.querySelectorAll('.language-option');
+        languageOptions.forEach(option => {
+            option.addEventListener('click', function(e) {
+                e.preventDefault();
+                const lang = this.getAttribute('data-lang');
+                changeLanguage(lang);
+                
+                // Close modal
+                const modal = document.getElementById('language-modal');
+                if (modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+    });
+    </script>
+    <script>
+    // Global function for helpline modal - works regardless of initialization
+    function showHelplineModal() {
+        console.log('showHelplineModal called');
+        const helplineModal = document.getElementById('helpline-modal');
+        if (helplineModal) {
+            console.log('Modal found, showing...');
+            helplineModal.style.display = 'flex';
+            setTimeout(() => {
+                helplineModal.style.display = 'none';
+            }, 10000);
+        } else {
+            console.error('Helpline modal not found');
+        }
+    }
+
+    // Global function for feedback modal
+    function showFeedbackModal() {
+        console.log('showFeedbackModal called');
+        const feedbackModal = document.getElementById('feedback-modal');
+        if (feedbackModal) {
+            console.log('Feedback modal found, showing...');
+            feedbackModal.style.display = 'flex';
+            // No auto-close for feedback modal - users need time to fill the form
+        } else {
+            console.error('Feedback modal not found');
+        }
+    }
+
+    // Global function for facts modal (inline fallback to avoid cache/timing issues)
+    if (typeof window.showFactsModal !== 'function') {
+        window.healthcareFacts = window.healthcareFacts || [
+            '🏃‍♂️ Regular exercise lowers risk of heart disease and diabetes.',
+            '💉 Vaccines save millions of lives every year.',
+            '🧼 Handwashing cuts infection spread by up to 40%.',
+            '💊 Antibiotic misuse causes drug resistance.',
+            '💤 Good sleep strengthens immunity and heart health.',
+            '🥦 Fruits and veggies reduce cancer and heart disease risk.',
+            '🍭 Too much sugar increases diabetes and obesity risk.',
+            '🚫 Trans fats raise bad cholesterol and heart risk.',
+            '🐟 Omega-3s boost brain and heart health.',
+            '💧 Staying hydrated improves focus and memory.',
+            '😫 Chronic stress weakens your immune system.',
+            '🧘‍♀️ Meditation reduces stress, anxiety, and depression.',
+            '🤝 Strong social ties increase lifespan and happiness.',
+            '🚭 Smoking is the top preventable cause of death.',
+            '🍷 No alcohol level is completely safe for health.',
+            '🌞 Sunscreen prevents most skin cancers.',
+            '🩺 Regular health checkups catch diseases early.',
+            '📚 Lifelong learning protects brain health.',
+            '👂 Treating hearing loss lowers dementia risk.',
+            '⏳ Exercise slows aging at the cellular level.'
+        ];
+        window.currentFactIndex = typeof window.currentFactIndex === 'number' ? window.currentFactIndex : 0;
+
+        window.showFactsModal = function() {
+            const factsModal = document.getElementById('facts-modal');
+            const factsText = document.getElementById('facts-text');
+            if (!factsModal || !factsText) {
+                console.error('Facts modal elements not found');
+                return;
+            }
+            factsText.textContent = window.healthcareFacts[window.currentFactIndex];
+            window.currentFactIndex = (window.currentFactIndex + 1) % window.healthcareFacts.length;
+            factsModal.style.display = 'flex';
+            setTimeout(() => { factsModal.style.display = 'none'; }, 10000);
+        }
+    }
+
+    
+
+    // Close modal functionality
+    document.addEventListener('click', function(e) {
+        // Close button
+        if (e.target.classList.contains('close-modal')) {
+            const modal = e.target.closest('.modal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        // Click outside modal to close
+        if (e.target.classList.contains('modal')) {
+            e.target.style.display = 'none';
+        }
+    });
+
+    // Feedback form submission
+    document.addEventListener('DOMContentLoaded', function() {
+        const feedbackForm = document.getElementById('feedback-form');
+        if (feedbackForm) {
+            feedbackForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('feedback-name').value;
+                const email = document.getElementById('feedback-email').value;
+                const feedback = document.getElementById('feedback-message').value;
+                
+                if (name && email && feedback) {
+                    // Submit feedback to server
+                    const formData = new FormData();
+                    formData.append('name', name);
+                    formData.append('email', email);
+                    formData.append('feedback', feedback);
+                    
+                    fetch('api/submit_feedback.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Thank you for your feedback! We will get back to you soon.');
+                            feedbackForm.reset();
+                            document.getElementById('feedback-modal').style.display = 'none';
+                        } else {
+                            alert('Error submitting feedback: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error submitting feedback. Please try again.');
+                    });
+                } else {
+                    alert('Please fill in all fields.');
+                }
+            });
+        }
+    });
+    </script>
+</body>
+</html>
